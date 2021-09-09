@@ -1,5 +1,4 @@
-import { useState, useEffect } from 'react';
-// import shortid from 'shortid';
+import { useEffect } from 'react';
 import { connect } from 'react-redux';
 import * as action from '../../redux/contacts/contacts-action';
 import s from './App.module.css';
@@ -7,35 +6,14 @@ import Filter from '../Filter';
 import ContactForm from '../ContactForm';
 import ContactList from '../ContactList';
 
-const App = ({ contacts, filter, addContact, deleteContact, chengeFilter }) => {
-  // const [contactsArr, setContacts] = useState(contacts);
-  // const [filter, setFilter] = useState('');
-
-  // const addContact = (name, number) => {
-  //   const contact = {
-  //     id: shortid.generate(),
-  //     name,
-  //     number,
-  //   };
-  //   const checkingContacts = el => el.name.toLowerCase() === name.toLowerCase();
-
-  //   if (contacts.some(checkingContacts)) {
-  //     alert(`${name} is alreaby in contacts`);
-  //     return;
-  //   }
-  //   setContacts(contacts => [contact, ...contacts]);
-  // };
-
-  // const deleteContacts = idContact => {
-  //   setContacts(prevContacts =>
-  //     prevContacts.filter(contact => contact.id !== idContact),
-  //   );
-  // };
-
-  // const chengeFilter = e => {
-  //   setFilter(e.target.value);
-  // };
-
+const App = ({
+  contacts,
+  filter,
+  addContact,
+  deleteContact,
+  chengeFilter,
+  setContacts,
+}) => {
   const getVisibleContacts = () => {
     const normalizedFilter = filter.toLowerCase();
 
@@ -44,16 +22,16 @@ const App = ({ contacts, filter, addContact, deleteContact, chengeFilter }) => {
     );
   };
 
-  // useEffect(() => {
-  //   const contactsRepositiry = JSON.parse(localStorage.getItem('contacts'));
-  //   if (contactsRepositiry) {
-  //     setContacts(contactsRepositiry);
-  //   }
-  // }, []);
+  useEffect(() => {
+    const contactsRepositiry = JSON.parse(localStorage.getItem('contacts'));
+    if (contactsRepositiry) {
+      setContacts(contactsRepositiry);
+    }
+  }, [setContacts]);
 
-  // useEffect(() => {
-  //   localStorage.setItem('contacts', JSON.stringify(contacts));
-  // }, [contacts]);
+  useEffect(() => {
+    localStorage.setItem('contacts', JSON.stringify(contacts));
+  }, [contacts]);
 
   return (
     <div className={s.container}>
@@ -82,6 +60,7 @@ const mapDispatchToProps = dispatch => {
     addContact: (name, number) => dispatch(action.addContact(name, number)),
     deleteContact: id => dispatch(action.deleteContact(id)),
     chengeFilter: e => dispatch(action.chengeFilter(e)),
+    setContacts: arr => dispatch(action.setContacts(arr)),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(App);

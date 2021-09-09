@@ -19,3 +19,8 @@ export const chengeFilter = e => ({
   type: contactsType.FILTER_CONTACTS,
   payload: e.target.value,
 });
+
+export const setContacts = arr => ({
+  type: contactsType.SET_CONTACTS,
+  payload: arr,
+});

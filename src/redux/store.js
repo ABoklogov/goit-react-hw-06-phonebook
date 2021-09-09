@@ -43,6 +43,15 @@ const reducer = (state = initialState, { type, payload }) => {
         },
       };
 
+    case contactsType.SET_CONTACTS:
+      return {
+        ...state,
+        contacts: {
+          ...state.contacts,
+          items: payload,
+        },
+      };
+
     default:
       return state;
   }
