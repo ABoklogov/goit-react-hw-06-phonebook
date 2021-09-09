@@ -1,4 +1,4 @@
-import contactsType from './contacts-action';
+import contactsType from './contacts-type';
 import shortid from 'shortid';
 
 export const addContact = (name, number) => ({
@@ -10,7 +10,12 @@ export const addContact = (name, number) => ({
   },
 });
 
-export const deleteContacts = id => ({
+export const deleteContact = id => ({
   type: contactsType.DELETE_CONTACT,
   payload: id,
+});
+
+export const chengeFilter = e => ({
+  type: contactsType.FILTER_CONTACTS,
+  payload: e.target.value,
 });

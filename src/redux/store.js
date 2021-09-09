@@ -1,5 +1,5 @@
 import { createStore } from 'redux';
-import contactsType from './contacts-action';
+import contactsType from './contacts/contacts-type';
 
 const initialState = {
   contacts: {
@@ -17,10 +17,31 @@ const reducer = (state = initialState, { type, payload }) => {
         alert(`${payload.name} is alreaby in contacts`);
         return;
       }
-      return [...state.contacts.items, payload];
+      return {
+        ...state,
+        contacts: {
+          ...state.contacts,
+          items: [...state.contacts.items, payload],
+        },
+      };
 
     case contactsType.DELETE_CONTACT:
-      return state.contacts.items.filter(contact => contact.id !== payload);
+      return {
+        ...state,
+        contacts: {
+          ...state.contacts,
+          items: state.contacts.items.filter(contact => contact.id !== payload),
+        },
+      };
+
+    case contactsType.FILTER_CONTACTS:
+      return {
+        ...state,
+        contacts: {
+          ...state.contacts,
+          filter: payload,
+        },
+      };
 
     default:
       return state;

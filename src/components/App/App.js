@@ -7,9 +7,9 @@ import Filter from '../Filter';
 import ContactForm from '../ContactForm';
 import ContactList from '../ContactList';
 
-const App = ({ contacts, addContact, deleteContacts }) => {
-  // const [contacts, setContacts] = useState([]);
-  const [filter, setFilter] = useState('');
+const App = ({ contacts, filter, addContact, deleteContact, chengeFilter }) => {
+  // const [contactsArr, setContacts] = useState(contacts);
+  // const [filter, setFilter] = useState('');
 
   // const addContact = (name, number) => {
   //   const contact = {
@@ -32,9 +32,9 @@ const App = ({ contacts, addContact, deleteContacts }) => {
   //   );
   // };
 
-  const chengeFilter = e => {
-    setFilter(e.target.value);
-  };
+  // const chengeFilter = e => {
+  //   setFilter(e.target.value);
+  // };
 
   const getVisibleContacts = () => {
     const normalizedFilter = filter.toLowerCase();
@@ -45,9 +45,9 @@ const App = ({ contacts, addContact, deleteContacts }) => {
   };
 
   // useEffect(() => {
-  //   const contacts = JSON.parse(localStorage.getItem('contacts'));
-  //   if (contacts) {
-  //     setContacts(contacts);
+  //   const contactsRepositiry = JSON.parse(localStorage.getItem('contacts'));
+  //   if (contactsRepositiry) {
+  //     setContacts(contactsRepositiry);
   //   }
   // }, []);
 
@@ -58,13 +58,13 @@ const App = ({ contacts, addContact, deleteContacts }) => {
   return (
     <div className={s.container}>
       <h1 className={s.title}>Phonebook</h1>
-      <ContactForm onSubmit={addContact} />
+      <ContactForm onSubmit={(name, number) => addContact(name, number)} />
 
       <h2>Contacts</h2>
-      <Filter value={filter} onChange={chengeFilter} />
+      <Filter value={filter} onChange={e => chengeFilter(e)} />
       <ContactList
         contacts={getVisibleContacts()}
-        onDeleteContact={deleteContacts}
+        onDeleteContact={id => deleteContact(id)}
       />
     </div>
   );
@@ -79,8 +79,9 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    addContact: () => dispatch(action.addContact()),
-    deleteContacts: () => dispatch(action.deleteContacts()),
+    addContact: (name, number) => dispatch(action.addContact(name, number)),
+    deleteContact: id => dispatch(action.deleteContact(id)),
+    chengeFilter: e => dispatch(action.chengeFilter(e)),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(App);
