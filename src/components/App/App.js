@@ -50,8 +50,8 @@ const App = ({
 
 const mapStateToProps = state => {
   return {
-    contacts: state.contacts.items,
-    filter: state.contacts.filter,
+    contacts: state.items,
+    filter: state.filter,
   };
 };
 
