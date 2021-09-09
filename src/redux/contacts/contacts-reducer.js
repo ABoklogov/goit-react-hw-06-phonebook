@@ -1,33 +1,29 @@
-import contactsType from './contacts-type';
+import { combineReducers } from 'redux';
+import { createReducer } from '@reduxjs/toolkit';
+import * as action from './contacts-action';
 
-export const itemsReducer = (state = [], { type, payload }) => {
-  switch (type) {
-    case contactsType.ADD_CONTACT:
-      const checkingContacts = el =>
-        el.name.toLowerCase() === payload.name.toLowerCase();
-      if (state.some(checkingContacts)) {
-        alert(`${payload.name} is alreaby in contacts`);
-        return;
-      }
-      return [...state, payload];
+const items = createReducer([], {
+  [action.addContact]: (state, { payload }) => {
+    const checkingContacts = el =>
+      el.name.toLowerCase() === payload.name.toLowerCase();
+    if (state.some(checkingContacts)) {
+      alert(`${payload.name} is alreaby in contacts`);
+      return [...state];
+    }
+    return [...state, payload];
+  },
 
-    case contactsType.DELETE_CONTACT:
-      return state.filter(contact => contact.id !== payload);
+  [action.deleteContact]: (state, { payload }) =>
+    state.filter(contact => contact.id !== payload),
 
-    case contactsType.SET_CONTACTS:
-      return [...payload];
+  [action.setContacts]: (_, { payload }) => [...payload],
+});
 
-    default:
-      return state;
-  }
-};
+const filter = createReducer('', {
+  [action.chengeFilter]: (_, { payload }) => payload,
+});
 
-export const filterReducer = (state = '', { type, payload }) => {
-  switch (type) {
-    case contactsType.FILTER_CONTACTS:
-      return payload;
-
-    default:
-      return state;
-  }
-};
+export default combineReducers({
+  filter,
+  items,
+});
