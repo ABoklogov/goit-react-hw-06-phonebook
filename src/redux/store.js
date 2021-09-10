@@ -1,9 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit';
-import combineReducers from './contacts/contacts-reducer';
+import contactsReducer from './contacts/contacts-reducer';
 
 const store = configureStore({
   reducer: {
-    contacts: combineReducers,
+    contacts: contactsReducer,
   },
   devTools: process.env.NODE_ENV === 'development',
 });

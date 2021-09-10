@@ -1,18 +1,22 @@
 import { useEffect } from 'react';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import * as action from '../../redux/contacts/contacts-action';
+import { getContacts } from '../../redux/contacts/contacts-selector';
 import s from './App.module.css';
 import Filter from '../Filter';
 import ContactForm from '../ContactForm';
 import ContactList from '../ContactList';
 
-const App = ({ contacts, setContacts }) => {
+const App = () => {
+  const contacts = useSelector(getContacts);
+  const dispatch = useDispatch();
+
   useEffect(() => {
     const contactsRepositiry = JSON.parse(localStorage.getItem('contacts'));
     if (contactsRepositiry) {
-      setContacts(contactsRepositiry);
+      dispatch(action.setContacts(contactsRepositiry));
     }
-  }, [setContacts]);
+  }, [dispatch]);
 
   useEffect(() => {
     localStorage.setItem('contacts', JSON.stringify(contacts));
@@ -30,15 +34,4 @@ const App = ({ contacts, setContacts }) => {
   );
 };
 
-const mapStateToProps = state => {
-  return {
-    contacts: state.contacts.items,
-  };
-};
-
-const mapDispatchToProps = dispatch => {
-  return {
-    setContacts: arr => dispatch(action.setContacts(arr)),
-  };
-};
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default App;

@@ -23,7 +23,9 @@ const filter = createReducer('', {
   [action.chengeFilter]: (_, { payload }) => payload,
 });
 
-export default combineReducers({
+const contactsReducer = combineReducers({
   filter,
   items,
 });
+
+export default contactsReducer;
